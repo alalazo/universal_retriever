@@ -18,11 +18,8 @@
 #
 
 FIND_PACKAGE( Boost 1.56 REQUIRED COMPONENTS unit_test_framework )
-  
-SET(
-  TEST_SOURCES
-  simple_backend_test.cpp
-)
+
+SET( TEST_SOURCES simple_backend_test.cpp )
 
 ##########
 ## Test libraries
