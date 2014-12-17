@@ -21,8 +21,25 @@ FIND_PACKAGE( Boost 1.56 REQUIRED COMPONENTS unit_test_framework )
   
 SET(
   TEST_SOURCES
-  simple_backend.cpp
+  simple_backend_test.cpp
 )
+
+##########
+## Test libraries
+ADD_LIBRARY( simple_backend SimpleBackend.cpp )
+## Include directories
+TARGET_INCLUDE_DIRECTORIES(
+  simple_backend
+  PUBLIC ${PROJECT_SOURCE_DIR}/test
+)
+## Link
+TARGET_LINK_LIBRARIES(
+  simple_backend
+  PUBLIC  
+  universal_retriever
+)
+
+##########
 
 ##########
 ## Dynamic library : collection of tests
@@ -35,17 +52,14 @@ TARGET_COMPILE_DEFINITIONS(
 ## Include directories
 TARGET_INCLUDE_DIRECTORIES(
   universal_retriever_tests
-  PUBLIC ${PROJECT_SOURCE_DIR}/include
-)
-TARGET_INCLUDE_DIRECTORIES(
-  universal_retriever_tests
-  SYSTEM
-  PUBLIC ${Boost_INCLUDE_DIRS}
+  PUBLIC ${PROJECT_SOURCE_DIR}/test
 )
 ## Link
 TARGET_LINK_LIBRARIES(
   universal_retriever_tests
   PUBLIC  
+  simple_backend
+  universal_retriever
   ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 )
 ##########

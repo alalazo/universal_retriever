@@ -18,7 +18,7 @@
  */
 
 /**
- * @file BackEndInterface.h
+ * @file BackendInterface.h
  * 
  * @brief Back-end API for the universal retriever
  * 
@@ -39,7 +39,7 @@ namespace universal_retriever {
     /**
      * @brief API for a back-end library to communicate with the front-end
      */
-    class BackEndInterface {
+    class BackendInterface {
     public:
         
         /**
@@ -49,7 +49,7 @@ namespace universal_retriever {
          * 
          * @return universal container
          */
-        virtual boost::any retrieve(const std::string& key);
+        virtual boost::any retrieve(const std::string& key) = 0;
         
         /**
          * @brief Stores an object with a given key
@@ -72,8 +72,7 @@ namespace universal_retriever {
         /**
          * @brief The infamous virtual destructor
          */
-        virtual ~BackEndInterface() {
-        }
+        virtual ~BackendInterface();
     };
     
 }

@@ -32,52 +32,65 @@
 
 namespace universal_retriever {
 
-    /**
-     * @brief Provides information on a specific handler
-     * 
-     */
-    class HandlerInfo {
-    public:
-        
-        /**
-         * @brief Constructs an HandlerInfo object
-         * 
-         * @param[in] name name of the handler
-         * @param[in] version version of the handler
-         * @param[in] method serialization method of the handler
-         */
-        HandlerInfo(
-                const std::string & name,
-                const std::string & version,
-                const std::string & method) :
-        m_name(name), m_version(version), m_method(method) {}
-        
-        /**
-         * @brief Name associated with the handler
-         */
-        std::string name() const {
-            return m_name;
-        }
+/**
+ * @brief Provides information on a specific handler
+ * 
+ */
+class HandlerInfo {
+public:
 
-        /**
-         * @brief Version of the handler
-         */
-        std::string version() const {
-            return m_version;
-        }
+  /**
+   * @brief Constructs an HandlerInfo object
+   * 
+   * @param[in] name name of the handler
+   * @param[in] version version of the handler
+   * @param[in] method serialization method of the handler
+   */
+  HandlerInfo(
+          const std::string & name,
+          const std::string & version,
+          const std::string & method) :
+  m_name(name), m_version(version), m_method(method) {
+  }
 
-        /**
-         * @brief Serialization method
-         */
-        std::string serialization_method() const {
-            return m_method;
-        }
+  /**
+   * @brief Name associated with the handler
+   */
+  std::string name() const {
+    return m_name;
+  }
+
+  /**
+   * @brief Version of the handler
+   */
+  std::string version() const {
+    return m_version;
+  }
+
+  /**
+   * @brief Serialization method
+   */
+  std::string serialization_method() const {
+    return m_method;
+  }
     
-    private:
-        std::string m_name;
-        std::string m_version;
-        std::string m_method;        
-    };
+private:
+  std::string m_name;
+  std::string m_version;
+  std::string m_method;
+};
+
+inline bool operator<(const HandlerInfo& a, const HandlerInfo& b) {
+  if( a.name() != b.name() )
+  {
+    return a.name() < b.name();
+  } else if ( a.version() != b.version() ) {
+    return a.version() < b.version();
+  } else if ( a.serialization_method() != b.serialization_method() ) {
+    return a.serialization_method() < b.serialization_method();
+  }
+  return false; // They are equal
+}
 
 }
 

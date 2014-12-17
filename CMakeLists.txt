@@ -66,6 +66,8 @@ MESSAGE("############ COMPILER OPTIONS ############")
 
 FIND_PACKAGE( Boost 1.56 REQUIRED )
 
+ADD_SUBDIRECTORY( "src" )
+
 OPTION( BUILD_UNIT_TEST "Enable the build of unit tests" ON )
 IF( BUILD_UNIT_TEST )
   ENABLE_TESTING()

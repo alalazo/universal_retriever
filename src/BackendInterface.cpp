@@ -18,7 +18,26 @@
  */
 
 /**
- * @file FrontEnd.cpp
- * @brief Implementation for FrontEnd.h
+ * @file BackendInterface.cpp
+ * @brief Implementation for BackEndInterface.h
  * @author Massimiliano Culpo
  */
+
+#include <BackendInterface.h>
+
+namespace universal_retriever {
+
+void BackendInterface::store(const std::string& key, const boost::any& value)
+{
+  
+}
+
+BackendInterface::~BackendInterface()
+{
+}
+
+void BackendInterface::serialize()
+{
+}
+
+}

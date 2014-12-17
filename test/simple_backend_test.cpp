@@ -18,14 +18,15 @@
  */
 
 /**
- * @file simple_backend.cpp
+ * @file simple_backend_test.cpp
  * 
  * @brief Tests a back-end that provides data from memory
  *
  * @author Massimiliano Culpo
  */
 
-#include <FrontEnd.h>
+#include <Frontend.h>
+#include <SimpleBackend.h>
 
 #include <boost/test/unit_test.hpp>
 #include <boost/test/unit_test_suite.hpp>
@@ -34,10 +35,9 @@ BOOST_AUTO_TEST_SUITE(SimpleBackendTest)
 BOOST_AUTO_TEST_CASE(CommonOperations)
 {
   using namespace universal_retriever;
-  FrontEnd handler;
-  
-  auto a = handler.retrieve<int>("simple_backend","integer");
-  
-  BOOST_CHECK_EQUAL(a,0);
+  Frontend handler;
+  handler.add_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
+  auto a = handler.retrieve<int>("simple_backend","integer");  
+  BOOST_CHECK_EQUAL(a,10);
 }        
 BOOST_AUTO_TEST_SUITE_END()    
