@@ -31,6 +31,9 @@
 
 #include <BackEndInterface.h>
 
+#include <boost/any.hpp>
+#include <boost/type_index.hpp>
+
 #include <memory>
 #include <string>
 
@@ -55,7 +58,9 @@ namespace universal_retriever {
          * @return required object or throws
          */
         template<class T>
-        T retrieve(const std::string& name, const std::string& key);
+        T retrieve(const std::string& name, const std::string& key) {
+            return boost::any_cast<T>( retrieve(name,key,boost::typeindex::type_id<T>() ) );
+        }
         
         /**
          * @brief Stores an object of type T
@@ -99,6 +104,11 @@ namespace universal_retriever {
          * @param[in] handler object implementing the back-end interface
          */
         void set_store_handler(HandlerType handler);
+    private:
+        
+        boost::any retrieve(const std::string& name, const std::string& key, const boost::typeindex::type_index& tid) {
+            return boost::any(1);
+        }
     };
     
 }

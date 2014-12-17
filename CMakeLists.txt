@@ -1,3 +1,22 @@
+#
+# Universal Retriever : flexible engine for the retrieval of persistent objects
+#
+# Copyright (C) 2014  Massimiliano Culpo
+#
+# Universal Retriever is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Universal Retriever is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
 CMAKE_MINIMUM_REQUIRED( VERSION 3.0.0 )
 
 PROJECT( 
@@ -17,7 +36,7 @@ IF( NOT CMAKE_BUILD_TYPE )
 ENDIF()
 
 #### Shared library build
-OPTION(BUILD_SHARED_LIBS "Create shared libraries instead of static ones" ON)
+SET(BUILD_SHARED_LIBS ON)
 
 #### Compiler flags
 IF( CMAKE_COMPILER_ID STREQUAL "GNU")
@@ -46,3 +65,9 @@ MESSAGE("############ COMPILER OPTIONS ############")
 ##################
 
 FIND_PACKAGE( Boost 1.56 REQUIRED )
+
+OPTION( BUILD_UNIT_TEST "Enable the build of unit tests" ON )
+IF( BUILD_UNIT_TEST )
+  ENABLE_TESTING()
+  ADD_SUBDIRECTORY( "test" )
+ENDIF()
