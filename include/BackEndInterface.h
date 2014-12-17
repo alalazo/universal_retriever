@@ -30,10 +30,12 @@
 #ifndef BACKENDINTERFACE_H_20141215
 #define	BACKENDINTERFACE_H_20141215
 
+#include <HandlerInfo.h>
+
 #include <boost/any.hpp>
 
 namespace universal_retriever {
-    
+        
     /**
      * @brief API for a back-end library to communicate with the front-end
      */
@@ -61,11 +63,11 @@ namespace universal_retriever {
          * @brief Triggers serialization of all the stored objects
          */
         virtual void serialize();
-        
+                
         /**
-         * @brief Name associated with the handler
+         * @brief Returns information on the handler
          */
-        virtual std::string name() = 0;
+        virtual HandlerInfo info() = 0;
         
         /**
          * @brief The infamous virtual destructor

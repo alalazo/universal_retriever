@@ -31,6 +31,7 @@
 
 #include <BackEndInterface.h>
 
+#include <memory>
 #include <string>
 
 /**
@@ -43,6 +44,8 @@ namespace universal_retriever {
      */
     class FrontEnd {
     public:
+        using HandlerType = std::shared_ptr<BackEndInterface>;
+        
         /**
          * @brief Retrieves an object of type T 
          * 
@@ -57,7 +60,7 @@ namespace universal_retriever {
         /**
          * @brief Stores an object of type T
          * 
-         * @param[in] name identifies one particular handler
+         * @param[in] name identifies one particular store handler
          * @param[in] key key associated with the value
          * @param[in] value value to be stored
          */
@@ -67,9 +70,35 @@ namespace universal_retriever {
         /**
          * @brief Forces serialization of the stored objects
          * 
-         * @param[in] name identifies one particular handler
+         * @param[in] name identifies one particular store handler
          */
-        void serialize(const std::string& name);       
+        void serialize(const std::string& name);
+        
+        /**
+         * @brief Attach a retrieve handler to the front-end object
+         * 
+         * More than one handler associated with the same name may be added.
+         * The priority of use will be the same as the order of registration.
+         * 
+         * @param[in] name 
+         */
+        void add_retrieve_handler(const std::string& name);                
+        
+        /**
+         * @brief 
+         */
+        void remove_retrieve_handler(const std::string& name);
+        
+        /**
+         * @brief Attach a store handler to the front-end object
+         * 
+         * Only one store handler object may be associated with a given name.
+         * Setting an handler for a name when one is already in use will
+         * substitute the handler
+         * 
+         * @param[in] handler object implementing the back-end interface
+         */
+        void set_store_handler(HandlerType handler);
     };
     
 }
