@@ -93,6 +93,14 @@ inline bool operator<(const HandlerInfo& a, const HandlerInfo& b) {
   return false; // They are equal
 }
 
+inline bool operator==(const HandlerInfo& a, const HandlerInfo& b) {
+  if( a.name() == b.name() && a.version() == b.version() &&
+      a.serialization_method() == b.serialization_method() )
+  {
+    return true;
+  }
+  return false;
+}
 inline std::ostream& operator<<(std::ostream & stream, const HandlerInfo& info) {
   stream << "\t-- Handler Info --" << std::endl;
   stream << "\tname    : " << info.name() << std::endl;

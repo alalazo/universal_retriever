@@ -28,6 +28,7 @@
 #include <UniversalRetrieverExceptions.h>
 #include <HandlerMap.h>
 
+#include <algorithm>
 #include <sstream>
 
 using namespace std;
@@ -36,6 +37,7 @@ namespace universal_retriever {
 
 boost::any Frontend::retrieve(const std::string& name, const std::string& key, const boost::typeindex::type_index& tid)
 {
+  // Cycle through all the handlers
   auto & handler = m_retriever_map.at(name);
   return handler[0]->retrieve(key);
 }
@@ -43,14 +45,45 @@ boost::any Frontend::retrieve(const std::string& name, const std::string& key, c
 void Frontend::add_retrieve_handler(const HandlerInfo& info)
 {
   auto& map = details::HandlerMap::get();
-  try {
+  try
+  {
     auto handler = map.at(info);
-    m_retriever_map[info.name()].push_back(handler);
-  } catch ( std::out_of_range& e ) {
+    auto& hvector = m_retriever_map[info.name()];
+    // Push back handler if not present
+    auto it = find(hvector.begin(), hvector.end(), handler);
+    if (it == hvector.end())
+    {
+      hvector.push_back(handler);
+    }
+  }
+  catch (out_of_range& e)
+  {
     stringstream estream;
-    estream << "Error in " << __func__ << " : handler is not registered in the engine"  << endl;
+    estream << "Error in " << __func__ << " : handler is not registered in the engine" << endl;
     estream << info << endl;
-    throw HandlerNotFound( estream.str() );
+    throw HandlerNotFound(estream.str());
+  }
+}
+
+void Frontend::remove_retrieve_handler(const HandlerInfo& info)
+{
+  try
+  {
+    auto& hvector = m_retriever_map.at(info.name());
+    hvector.erase(
+                  remove_if(hvector.begin(), hvector.end(), [&info](HandlerType & x)
+                  {
+                    return x->info() == info;
+                  }),
+                  hvector.end()
+                  );
+  }
+  catch (exception)
+  {
+    stringstream estream;
+    estream << "Error in " << __func__ << " : handler was not added to the front-end" << endl;
+    estream << info << endl;
+    throw HandlerNotFound(estream.str());
   }
 }
 
