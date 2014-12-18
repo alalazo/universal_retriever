@@ -34,47 +34,59 @@
 
 #include <boost/any.hpp>
 
+#include <memory>
+
 namespace universal_retriever {
-        
-    /**
-     * @brief API for a back-end library to communicate with the front-end
-     */
-    class BackendInterface {
-    public:
-        
-        /**
-         * @brief Retrieves an object and packages it in a universal container
-         * 
-         * @param[in] key key associated with the object
-         * 
-         * @return universal container
-         */
-        virtual boost::any retrieve(const std::string& key) = 0;
-        
-        /**
-         * @brief Stores an object with a given key
-         * 
-         * @param[in] key key associated with the object
-         * @param[in] value object to be stored
-         */
-        virtual void store(const std::string& key, const boost::any& value);
-        
-        /**
-         * @brief Triggers serialization of all the stored objects
-         */
-        virtual void serialize();
-                
-        /**
-         * @brief Returns information on the handler
-         */
-        virtual HandlerInfo info() = 0;
-        
-        /**
-         * @brief The infamous virtual destructor
-         */
-        virtual ~BackendInterface();
-    };
-    
+
+/**
+ * @brief API for a back-end library to communicate with the front-end
+ */
+class BackendInterface {
+public:
+
+  /**
+   * @brief Retrieves an object and packages it in a universal container
+   * 
+   * @param[in] key key associated with the object
+   * 
+   * @return universal container
+   */
+  virtual boost::any retrieve(const std::string& key) = 0;
+
+  /**
+   * @brief Stores an object with a given key
+   * 
+   * @param[in] key key associated with the object
+   * @param[in] value object to be stored
+   */
+  virtual void store(const std::string& key, const boost::any& value);
+
+  /**
+   * @brief Triggers serialization of all the stored objects
+   */
+  virtual void serialize();
+
+  /**
+   * @brief Returns information on the handler
+   */
+  virtual HandlerInfo info() = 0;
+
+  /**
+   * @brief The infamous virtual destructor
+   */
+  virtual ~BackendInterface();
+};
+
+/**
+ * @brief Implementation details that should not be exposed to the public,
+ * but need to stay in an header file
+ */
+namespace details {
+bool register_backend(std::shared_ptr<BackendInterface> backend);
+}
+
+#define REGISTRABLE_BACKEND static bool m_is_registered
+#define REGISTER_BACKEND( X ) bool X::m_is_registered( universal_retriever::details::register_backend(std::make_shared<X>()) )
 }
 
 #endif	/* BACKENDINTERFACE_H_20141215 */

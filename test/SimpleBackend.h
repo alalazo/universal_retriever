@@ -49,7 +49,7 @@ private:
   int m_integer = 10;
   double m_double = 0.0;
   
-  static bool m_is_registered;
+  REGISTRABLE_BACKEND;
 };
 
 }

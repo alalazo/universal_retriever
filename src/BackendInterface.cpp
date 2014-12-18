@@ -25,11 +25,15 @@
 
 #include <BackendInterface.h>
 
+#include <HandlerMap.h>
+
+using namespace std;
+
 namespace universal_retriever {
 
 void BackendInterface::store(const std::string& key, const boost::any& value)
 {
-  
+
 }
 
 BackendInterface::~BackendInterface()
@@ -40,4 +44,14 @@ void BackendInterface::serialize()
 {
 }
 
+namespace details {
+
+bool register_backend(std::shared_ptr<BackendInterface> backend)
+{
+  auto & map=details::HandlerMap::get();
+  auto item=make_pair(backend->info(), backend);
+  return map.insert(item).second;
+}
+
+}
 }

@@ -28,7 +28,6 @@
  */
 
 #include <SimpleBackend.h>
-#include <HandlerMap.h>
 
 #include <boost/any.hpp>
 
@@ -36,18 +35,6 @@
 #include <stdexcept>
 
 using namespace std;
-
-namespace {
-
-bool register_library()
-{
-  using namespace universal_retriever;
-  auto pnt=make_shared<SimpleBackEnd>();
-  auto & map=details::HandlerMap::get();
-  auto item=make_pair(pnt->info(), static_cast<details::HandlerMap::BackendType> (pnt));
-  return map.insert(item).second;
-}
-}
 
 namespace universal_retriever {
 
@@ -90,6 +77,5 @@ void SimpleBackEnd::store(const std::string& key, const boost::any& value)
   }
 }
 
-bool SimpleBackEnd::m_is_registered( register_library() );
-
+REGISTER_BACKEND(SimpleBackEnd);
 }
