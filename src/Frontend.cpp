@@ -25,7 +25,12 @@
 
 #include <Frontend.h>
 
+#include <UniversalRetrieverExceptions.h>
 #include <HandlerMap.h>
+
+#include <sstream>
+
+using namespace std;
 
 namespace universal_retriever {
 
@@ -38,8 +43,15 @@ boost::any Frontend::retrieve(const std::string& name, const std::string& key, c
 void Frontend::add_retrieve_handler(const HandlerInfo& info)
 {
   auto& map = details::HandlerMap::get();
-  auto handler = map.at(info); /// @todo may throw if info not present
-  m_retriever_map[info.name()].push_back(handler);
+  try {
+    auto handler = map.at(info);
+    m_retriever_map[info.name()].push_back(handler);
+  } catch ( std::out_of_range& e ) {
+    stringstream estream;
+    estream << "Error in " << __func__ << " : handler is not registered in the engine"  << endl;
+    estream << info << endl;
+    throw HandlerNotFound( estream.str() );
+  }
 }
 
 }

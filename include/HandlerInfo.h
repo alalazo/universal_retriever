@@ -28,6 +28,7 @@
 #ifndef HANDLERINFO_H_20141217
 #define	HANDLERINFO_H_20141217
 
+#include <iostream>
 #include <string>
 
 namespace universal_retriever {
@@ -90,6 +91,14 @@ inline bool operator<(const HandlerInfo& a, const HandlerInfo& b) {
     return a.serialization_method() < b.serialization_method();
   }
   return false; // They are equal
+}
+
+inline std::ostream& operator<<(std::ostream & stream, const HandlerInfo& info) {
+  stream << "\t-- Handler Info --" << std::endl;
+  stream << "\tname    : " << info.name() << std::endl;
+  stream << "\tversion : " << info.version() << std::endl;
+  stream << "\tmethod  : " << info.serialization_method() << std::endl;  
+  return stream;
 }
 
 }

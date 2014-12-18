@@ -69,4 +69,7 @@ TARGET_LINK_LIBRARIES(
   universal_retriever_tests
 )
 ##########
-ADD_TEST(run_unit_test test_universal_retriever.x )
+ADD_TEST(
+  NAME run_unit_test
+  COMMAND test_universal_retriever.x --report_level=detailed --build_info --log_format=xml --log_level=all --output_format=hrf --random --log_sink=test.log
+)
