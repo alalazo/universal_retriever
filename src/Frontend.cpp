@@ -77,8 +77,12 @@ void Frontend::remove_retrieve_handler(const HandlerInfo& info)
                   }),
                   hvector.end()
                   );
+    if (hvector.empty())
+    {
+      m_retriever_map.erase(info.name());
+    }
   }
-  catch (exception)
+  catch (out_of_range& e)
   {
     stringstream estream;
     estream << "Error in " << __func__ << " : handler was not added to the front-end" << endl;

@@ -36,15 +36,22 @@ BOOST_AUTO_TEST_SUITE(SimpleBackendTest)
 BOOST_AUTO_TEST_CASE(CommonOperations)
 {
   using namespace universal_retriever;
-  Frontend handler;
-  handler.add_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
-  auto a = handler.retrieve<int>("simple_backend","integer");  
-  BOOST_CHECK_EQUAL(a,10);      
+  Frontend client;
+  client.add_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
+  auto a = client.retrieve<int>("simple_backend","integer");  
+  BOOST_CHECK_EQUAL(a,10);
+  client.remove_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
 }        
 BOOST_AUTO_TEST_CASE(Exceptions)
 {
   using namespace universal_retriever;
-  Frontend handler;  
-  BOOST_CHECK_THROW( handler.add_retrieve_handler( HandlerInfo("invalid","1.0","invalid") ), HandlerNotFound );
+  Frontend client;  
+  BOOST_CHECK_THROW( client.add_retrieve_handler( HandlerInfo("invalid","1.0","invalid") ), HandlerNotFound );
+  
+  client.add_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
+  client.add_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
+  client.remove_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
+  BOOST_CHECK_THROW( client.remove_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") ), HandlerNotFound );
+  
 }
 BOOST_AUTO_TEST_SUITE_END()    
