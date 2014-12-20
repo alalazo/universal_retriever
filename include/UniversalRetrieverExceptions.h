@@ -35,8 +35,15 @@ namespace universal_retriever {
 /**
  * @brief Exception thrown if an handler is not found in a query
  */
-class HandlerNotFound : public std::out_of_range { 
-  using std::out_of_range::out_of_range;
+class HandlerNotFound : public std::runtime_error { 
+  using std::runtime_error::runtime_error;
+};
+
+/**
+ * @brief Exception thrown if a key is not found in a query
+ */
+class KeyNotFound : public std::runtime_error { 
+  using std::runtime_error::runtime_error;
 };
 
 }

@@ -31,6 +31,11 @@ using namespace std;
 
 namespace universal_retriever {
 
+boost::any BackendInterface::retrieve(const std::string& key)
+{
+  return boost::any();
+}
+
 void BackendInterface::store(const std::string& key, const boost::any& value)
 {
 

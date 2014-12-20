@@ -35,12 +35,9 @@ using namespace std;
 
 namespace universal_retriever {
 
-boost::any Frontend::retrieve(const std::string& name, const std::string& key, const boost::typeindex::type_index& tid)
-{
-  // Cycle through all the handlers
-  auto & handler = m_retriever_map.at(name);
-  return handler[0]->retrieve(key);
-}
+//
+// Public 
+//
 
 void Frontend::add_retrieve_handler(const HandlerInfo& info)
 {
@@ -89,6 +86,40 @@ void Frontend::remove_retrieve_handler(const HandlerInfo& info)
     estream << info << endl;
     throw HandlerNotFound(estream.str());
   }
+}
+
+//
+// Private
+//
+
+boost::any Frontend::any_retrieve(const std::string& name, const std::string& key)
+{
+  try {    
+    auto & hvector = m_retriever_map.at(name);
+    return any_retrieve_from_hvector(hvector,key);    
+  } catch (out_of_range& e) {
+    stringstream estream;
+    estream << "Error : the front-end doesn't know how to manage \"" << name << "\" data types" << endl;
+    estream << "\tDid you forget to call add_retrieve_handler and register the handler?" << endl;
+    throw HandlerNotFound(estream.str());
+  }  
+}
+
+boost::any Frontend::any_retrieve_from_hvector(std::vector<HandlerType>& hvector, const std::string& key)
+{
+  for(auto& x : hvector)
+  {
+    auto value = x->retrieve(key);
+    if ( !value.empty() ) return value;
+  }    
+  // If the function did not return, then throw an exception
+  stringstream estream;
+  estream << "Error : key \"" << key << "\" not managed by the following handlers : " << endl;
+  for(auto& x : hvector)
+  {
+    estream << x->info() << endl;
+  }
+  throw KeyNotFound( estream.str() );
 }
 
 }

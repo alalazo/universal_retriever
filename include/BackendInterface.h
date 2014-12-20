@@ -47,11 +47,13 @@ public:
   /**
    * @brief Retrieves an object and packages it in a universal container
    * 
+   * If the object cannot be retrieved should return an empty container.
+   * 
    * @param[in] key key associated with the object
    * 
    * @return universal container
    */
-  virtual boost::any retrieve(const std::string& key) = 0;
+  virtual boost::any retrieve(const std::string& key);
 
   /**
    * @brief Stores an object with a given key

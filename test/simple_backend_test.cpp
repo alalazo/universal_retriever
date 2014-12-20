@@ -47,11 +47,14 @@ BOOST_AUTO_TEST_CASE(Exceptions)
   using namespace universal_retriever;
   Frontend client;  
   BOOST_CHECK_THROW( client.add_retrieve_handler( HandlerInfo("invalid","1.0","invalid") ), HandlerNotFound );
-  
+  // Should add only one handler of the same type
   client.add_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
   client.add_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
+  // Requires a non existing type
+  BOOST_CHECK_THROW( client.retrieve<int>("invalid","integer"), HandlerNotFound );
+  // Requires a non existing key
+  BOOST_CHECK_THROW( client.retrieve<int>("simple_backend","intege"), KeyNotFound );  
   client.remove_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
-  BOOST_CHECK_THROW( client.remove_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") ), HandlerNotFound );
-  
+  BOOST_CHECK_THROW( client.remove_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") ), HandlerNotFound );  
 }
 BOOST_AUTO_TEST_SUITE_END()    

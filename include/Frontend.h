@@ -32,7 +32,6 @@
 #include <BackendInterface.h>
 
 #include <boost/any.hpp>
-#include <boost/type_index.hpp>
 
 #include <map>
 #include <memory>
@@ -63,7 +62,7 @@ public:
    */
   template<class T>
   T retrieve(const std::string& name, const std::string& key) {
-    return boost::any_cast<T>(retrieve(name, key, boost::typeindex::type_id<T>()));
+    return boost::any_cast<T>(any_retrieve(name, key));
   }
 
   /**
@@ -123,7 +122,9 @@ public:
 
 private:
 
-  boost::any retrieve(const std::string& name, const std::string& key, const boost::typeindex::type_index& tid);
+  boost::any any_retrieve(const std::string& name, const std::string& key);
+  
+  boost::any any_retrieve_from_hvector(std::vector<HandlerType>& hvector, const std::string& key);  
   
   std::map< std::string, std::vector<HandlerType> > m_retriever_map;
 };
