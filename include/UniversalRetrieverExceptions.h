@@ -46,6 +46,13 @@ class KeyNotFound : public std::runtime_error {
   using std::runtime_error::runtime_error;
 };
 
+/**
+ * @brief Exception thrown if a key exists but does not match a given type
+ */
+class KeyTypeMismatch : public std::runtime_error { 
+  using std::runtime_error::runtime_error;
+};
+
 }
 
 #endif	/* UNIVERSALRETRIEVEREXCEPTIONS_H_20141218 */

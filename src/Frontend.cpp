@@ -25,11 +25,9 @@
 
 #include <Frontend.h>
 
-#include <UniversalRetrieverExceptions.h>
 #include <HandlerMap.h>
 
 #include <algorithm>
-#include <sstream>
 
 using namespace std;
 
@@ -94,10 +92,13 @@ void Frontend::remove_retrieve_handler(const HandlerInfo& info)
 
 boost::any Frontend::any_retrieve(const std::string& name, const std::string& key)
 {
-  try {    
+  try
+  {
     auto & hvector = m_retriever_map.at(name);
-    return any_retrieve_from_hvector(hvector,key);    
-  } catch (out_of_range& e) {
+    return any_retrieve_from_hvector(hvector, key);
+  }
+  catch (out_of_range& e)
+  {
     stringstream estream;
     estream << "Error : the front-end doesn't know how to manage \"" << name << "\" data types" << endl;
     estream << "\tDid you forget to call add_retrieve_handler and register the handler?" << endl;
@@ -107,19 +108,19 @@ boost::any Frontend::any_retrieve(const std::string& name, const std::string& ke
 
 boost::any Frontend::any_retrieve_from_hvector(std::vector<HandlerType>& hvector, const std::string& key)
 {
-  for(auto& x : hvector)
+  for (auto& x : hvector)
   {
     auto value = x->retrieve(key);
-    if ( !value.empty() ) return value;
-  }    
+    if (!value.empty()) return value;
+  }
   // If the function did not return, then throw an exception
   stringstream estream;
   estream << "Error : key \"" << key << "\" not managed by the following handlers : " << endl;
-  for(auto& x : hvector)
+  for (auto& x : hvector)
   {
     estream << x->info() << endl;
   }
-  throw KeyNotFound( estream.str() );
+  throw KeyNotFound(estream.str());
 }
 
 }

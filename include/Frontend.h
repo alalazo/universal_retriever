@@ -31,11 +31,15 @@
 
 #include <BackendInterface.h>
 
+#include <UniversalRetrieverExceptions.h>
+
 #include <boost/any.hpp>
+#include <boost/type_index.hpp>
 
 #include <map>
 #include <memory>
 #include <string>
+#include <sstream>
 #include <vector>
 
 /**
@@ -62,7 +66,14 @@ public:
    */
   template<class T>
   T retrieve(const std::string& name, const std::string& key) {
-    return boost::any_cast<T>(any_retrieve(name, key));
+    try {
+      return boost::any_cast<T>(any_retrieve(name, key));
+    } catch (boost::bad_any_cast& e) {
+      std::stringstream estream;
+      estream << "ERROR : key \"" << key << "\" in data set \"" << name << "\"";
+      estream << " is not associated with type \"" << boost::typeindex::type_id<T>().pretty_name() << "\"" << std::endl;
+      throw KeyTypeMismatch( estream.str() );
+    }
   }
 
   /**
@@ -116,16 +127,16 @@ public:
   /**
    * @brief Detach the store handler associated with the given name
    * 
-   * @param[in] name
+   * @param[in] name identifies one particular store handler
    */
   void unset_store_handler(const std::string& name);
 
 private:
 
   boost::any any_retrieve(const std::string& name, const std::string& key);
-  
-  boost::any any_retrieve_from_hvector(std::vector<HandlerType>& hvector, const std::string& key);  
-  
+
+  boost::any any_retrieve_from_hvector(std::vector<HandlerType>& hvector, const std::string& key);
+
   std::map< std::string, std::vector<HandlerType> > m_retriever_map;
 };
 

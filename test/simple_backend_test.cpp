@@ -37,9 +37,12 @@ BOOST_AUTO_TEST_CASE(CommonOperations)
 {
   using namespace universal_retriever;
   Frontend client;
+  // Add an handler
   client.add_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
+  // Retrieve a value
   auto a = client.retrieve<int>("simple_backend","integer");  
   BOOST_CHECK_EQUAL(a,10);
+  // Remove the retrieve handler
   client.remove_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
 }        
 BOOST_AUTO_TEST_CASE(Exceptions)
@@ -50,10 +53,13 @@ BOOST_AUTO_TEST_CASE(Exceptions)
   // Should add only one handler of the same type
   client.add_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
   client.add_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
-  // Requires a non existing type
+  // Requires a non existing name
   BOOST_CHECK_THROW( client.retrieve<int>("invalid","integer"), HandlerNotFound );
   // Requires a non existing key
   BOOST_CHECK_THROW( client.retrieve<int>("simple_backend","intege"), KeyNotFound );  
+  // Requires a wrong cast
+  BOOST_CHECK_THROW( client.retrieve<double>("simple_backend","integer"), KeyTypeMismatch );
+  // Try to remove a non existent handler  
   client.remove_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
   BOOST_CHECK_THROW( client.remove_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") ), HandlerNotFound );  
 }
