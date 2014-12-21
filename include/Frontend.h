@@ -84,7 +84,9 @@ public:
    * @param[in] value value to be stored
    */
   template<class T>
-  void store(const std::string& name, const std::string& key, const T& value);
+  void store(const std::string& name, const std::string& key, const T& value){
+    
+  }
 
   /**
    * @brief Forces serialization of the stored objects
@@ -138,6 +140,7 @@ private:
   boost::any any_retrieve_from_hvector(std::vector<HandlerType>& hvector, const std::string& key);
 
   std::map< std::string, std::vector<HandlerType> > m_retriever_map;
+  std::map< HandlerInfo, HandlerType > m_store_map;
 };
 
 }

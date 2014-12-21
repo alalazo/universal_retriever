@@ -40,8 +40,13 @@ BOOST_AUTO_TEST_CASE(CommonOperations)
   // Add an handler
   client.add_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
   // Retrieve a value
-  auto a = client.retrieve<int>("simple_backend","integer");  
+  auto a = client.retrieve<int>("simple_backend","integer");
   BOOST_CHECK_EQUAL(a,10);
+  // Set store vector
+  client.set_store_handler( HandlerInfo("simple_backend","1.0","memory") );
+  // Store a value
+  a = 20;
+  client.store("simple_backend","integer",a);
   // Remove the retrieve handler
   client.remove_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
 }        

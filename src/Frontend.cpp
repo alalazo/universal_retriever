@@ -31,6 +31,12 @@
 
 using namespace std;
 
+#define HANDLER_NOT_IN_MAP(info) stringstream estream; \
+    estream << "Error in " << __func__ << " : handler is not registered in the engine" << endl; \
+    estream << info << endl; \
+    throw HandlerNotFound(estream.str())
+
+
 namespace universal_retriever {
 
 //
@@ -53,10 +59,7 @@ void Frontend::add_retrieve_handler(const HandlerInfo& info)
   }
   catch (out_of_range& e)
   {
-    stringstream estream;
-    estream << "Error in " << __func__ << " : handler is not registered in the engine" << endl;
-    estream << info << endl;
-    throw HandlerNotFound(estream.str());
+    HANDLER_NOT_IN_MAP(info);
   }
 }
 
@@ -85,6 +88,21 @@ void Frontend::remove_retrieve_handler(const HandlerInfo& info)
     throw HandlerNotFound(estream.str());
   }
 }
+
+void Frontend::set_store_handler(const HandlerInfo& info)
+{
+  auto& map = details::HandlerMap::get();
+  try
+  {
+    auto handler = map.at(info);
+    m_store_map[info] = handler;
+  }
+  catch (out_of_range& e)
+  {
+    HANDLER_NOT_IN_MAP(info);
+  }
+}
+
 
 //
 // Private
