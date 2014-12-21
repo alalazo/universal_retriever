@@ -129,6 +129,8 @@ public:
   /**
    * @brief Detach the store handler associated with the given name
    * 
+   * If the handler for a given name was not set, the method does nothing
+   * 
    * @param[in] name identifies one particular store handler
    */
   void unset_store_handler(const std::string& name);
@@ -140,7 +142,7 @@ private:
   boost::any any_retrieve_from_hvector(std::vector<HandlerType>& hvector, const std::string& key);
 
   std::map< std::string, std::vector<HandlerType> > m_retriever_map;
-  std::map< HandlerInfo, HandlerType > m_store_map;
+  std::map< std::string, HandlerType > m_store_map;
 };
 
 }

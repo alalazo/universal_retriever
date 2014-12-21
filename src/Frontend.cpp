@@ -95,7 +95,7 @@ void Frontend::set_store_handler(const HandlerInfo& info)
   try
   {
     auto handler = map.at(info);
-    m_store_map[info] = handler;
+    m_store_map[info.name()] = handler;
   }
   catch (out_of_range& e)
   {
@@ -103,6 +103,10 @@ void Frontend::set_store_handler(const HandlerInfo& info)
   }
 }
 
+void Frontend::unset_store_handler(const std::string& name)
+{
+  m_store_map.erase(name);
+}
 
 //
 // Private
@@ -121,7 +125,7 @@ boost::any Frontend::any_retrieve(const std::string& name, const std::string& ke
     estream << "Error : the front-end doesn't know how to manage \"" << name << "\" data types" << endl;
     estream << "\tDid you forget to call add_retrieve_handler and register the handler?" << endl;
     throw HandlerNotFound(estream.str());
-  }  
+  }
 }
 
 boost::any Frontend::any_retrieve_from_hvector(std::vector<HandlerType>& hvector, const std::string& key)
