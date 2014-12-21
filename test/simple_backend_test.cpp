@@ -47,6 +47,9 @@ BOOST_AUTO_TEST_CASE(CommonOperations)
   // Store a value
   a = 20;
   client.store("simple_backend","integer",a);
+  client.serialize("simple_backend");  
+  a = client.retrieve<int>("simple_backend","integer");
+  BOOST_CHECK_EQUAL(a,20);  
   // Remove the retrieve handler
   client.remove_retrieve_handler( HandlerInfo("simple_backend","1.0","memory") );
 }        

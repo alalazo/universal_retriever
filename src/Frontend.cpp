@@ -32,7 +32,7 @@
 using namespace std;
 
 #define HANDLER_NOT_IN_MAP(info) stringstream estream; \
-    estream << "Error in " << __func__ << " : handler is not registered in the engine" << endl; \
+    estream << "ERROR (" << __func__ << ") : handler is not registered in the engine" << endl; \
     estream << info << endl; \
     throw HandlerNotFound(estream.str())
 
@@ -83,7 +83,7 @@ void Frontend::remove_retrieve_handler(const HandlerInfo& info)
   catch (out_of_range& e)
   {
     stringstream estream;
-    estream << "Error in " << __func__ << " : handler was not added to the front-end" << endl;
+    estream << "ERROR (" << __func__ << ") : retrieve handler was not added to the front-end" << endl;
     estream << info << endl;
     throw HandlerNotFound(estream.str());
   }
@@ -108,6 +108,32 @@ void Frontend::unset_store_handler(const std::string& name)
   m_store_map.erase(name);
 }
 
+void Frontend::serialize()
+{
+  for( auto& x : m_store_map )
+  {
+    x.second->serialize();
+  }
+}
+
+
+void Frontend::serialize(const std::string& name)
+{
+  try
+  {
+    auto & handler = m_store_map.at(name);
+    handler->serialize();
+  }
+  catch (out_of_range& e)
+  { 
+    stringstream estream;
+    estream << "ERROR (" << __func__ << ") : there is no store handler for data type \"" << name << "\"" << endl;
+    estream << "\tDid you forget to call set_store_handler and register the handler?" << endl;
+    throw HandlerNotFound( estream.str() );
+  }
+}
+
+
 //
 // Private
 //
@@ -122,7 +148,7 @@ boost::any Frontend::any_retrieve(const std::string& name, const std::string& ke
   catch (out_of_range& e)
   {
     stringstream estream;
-    estream << "Error : the front-end doesn't know how to manage \"" << name << "\" data types" << endl;
+    estream << "ERROR : the front-end doesn't know how to manage \"" << name << "\" data types" << endl;
     estream << "\tDid you forget to call add_retrieve_handler and register the handler?" << endl;
     throw HandlerNotFound(estream.str());
   }
@@ -137,7 +163,7 @@ boost::any Frontend::any_retrieve_from_hvector(std::vector<HandlerType>& hvector
   }
   // If the function did not return, then throw an exception
   stringstream estream;
-  estream << "Error : key \"" << key << "\" not managed by the following handlers : " << endl;
+  estream << "ERROR : key \"" << key << "\" not managed by the following handlers : " << endl;
   for (auto& x : hvector)
   {
     estream << x->info() << endl;

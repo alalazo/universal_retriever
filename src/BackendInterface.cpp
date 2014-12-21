@@ -26,6 +26,9 @@
 #include <BackendInterface.h>
 
 #include <HandlerMap.h>
+#include <UniversalRetrieverExceptions.h>
+
+#include <sstream>
 
 using namespace std;
 
@@ -38,7 +41,9 @@ boost::any BackendInterface::retrieve(const std::string& key)
 
 void BackendInterface::store(const std::string& key, const boost::any& value)
 {
-
+  stringstream estream;
+  estream << "ERROR : the store cannot be performed as " << __func__ << "was not overridden" << endl;
+  throw UnableToStore( estream.str() );
 }
 
 BackendInterface::~BackendInterface()

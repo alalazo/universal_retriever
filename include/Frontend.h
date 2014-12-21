@@ -85,9 +85,23 @@ public:
    */
   template<class T>
   void store(const std::string& name, const std::string& key, const T& value){
-    
+    try 
+    {
+      auto& handler = m_store_map.at( name );
+      handler->store(key,value);
+    } catch( std::out_of_range& e ) {
+      std::stringstream estream;
+      estream << "ERROR : the front-end doesn't know how to manage \"" << name << "\" data types" << std::endl;
+      estream << "\tDid you forget to call set_store_handler and register the handler?" << std::endl;
+      throw HandlerNotFound(estream.str());
+    }
   }
 
+  /**
+   * @brief Forces serialization for all the store handlers
+   */
+  void serialize();
+  
   /**
    * @brief Forces serialization of the stored objects
    * 

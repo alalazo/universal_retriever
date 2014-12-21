@@ -58,6 +58,8 @@ public:
   /**
    * @brief Stores an object with a given key
    * 
+   * Throws an exception if the store cannot be performed
+   * 
    * @param[in] key key associated with the object
    * @param[in] value object to be stored
    */

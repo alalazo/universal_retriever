@@ -53,6 +53,13 @@ class KeyTypeMismatch : public std::runtime_error {
   using std::runtime_error::runtime_error;
 };
 
+/**
+ * @brief Exception thrown if a store cannot be performed
+ */
+class UnableToStore : public std::runtime_error { 
+  using std::runtime_error::runtime_error;
+};
+
 }
 
 #endif	/* UNIVERSALRETRIEVEREXCEPTIONS_H_20141218 */
