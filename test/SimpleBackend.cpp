@@ -56,11 +56,6 @@ HandlerInfo SimpleBackEnd::info()
   return HandlerInfo("simple_backend", "1.0", "memory");
 }
 
-void SimpleBackEnd::serialize()
-{
-
-}
-
 void SimpleBackEnd::store(const std::string& key, const boost::any& value)
 {
   if (key == "integer")

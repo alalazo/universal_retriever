@@ -41,8 +41,6 @@ public:
 
   HandlerInfo info() final;
 
-  void serialize() final;
-
   void store(const std::string& key, const boost::any& value) final;
 
 private:
