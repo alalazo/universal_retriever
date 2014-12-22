@@ -20,6 +20,8 @@
 /**
  * @file HandlerInfo.h
  * 
+ * @brief Type that provides information on a specific handler
+ * 
  * @author Massimiliano Culpo
  *
  * Created on December 17, 2014, 5:53 AM

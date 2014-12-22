@@ -20,6 +20,8 @@
 /**
  * @file UniversalRetrieverExceptions.h
  * 
+ * @brief All the exceptions thrown by the library
+ * 
  * @author Massimiliano Culpo
  *
  * Created on December 18, 2014, 8:58 PM

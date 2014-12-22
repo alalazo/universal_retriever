@@ -40,6 +40,12 @@ IF( NOT CMAKE_BUILD_TYPE )
       "Choose the type of build, RelWithDebInfo will be the default." FORCE)
 ENDIF()
 
+#### Default documentation
+IF( NOT BUILD_DOCUMENTATION )
+  SET (BUILD_DOCUMENTATION OFF CACHE STRING
+      "If ON the documentation will be built (requires Doxygen). Dafault OFF" FORCE)
+ENDIF()
+
 #### Shared library build
 SET(BUILD_SHARED_LIBS ON)
 
@@ -73,6 +79,10 @@ FIND_PACKAGE( Boost 1.56 REQUIRED )
 
 ADD_SUBDIRECTORY( "include" )
 ADD_SUBDIRECTORY( "src" )
+
+IF( BUILD_DOCUMENTATION )
+  ADD_SUBDIRECTORY( "doc" )
+ENDIF()
 
 OPTION( BUILD_UNIT_TEST "Enable the build of unit tests" ON )
 IF( BUILD_UNIT_TEST )
