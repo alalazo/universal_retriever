@@ -24,16 +24,37 @@ SET(
   HandlerMap.cpp
 )
 ## Library
-ADD_LIBRARY( universal_retriever ${UNIVERSAL_RETRIEVER_SOURCES} )
+ADD_LIBRARY( 
+  universal_retriever SHARED 
+  ${UNIVERSAL_RETRIEVER_HEADERS} 
+  ${UNIVERSAL_RETRIEVER_SOURCES} 
+)
+## Set properties
+SET_TARGET_PROPERTIES(
+  universal_retriever
+  PROPERTIES
+  VERSION ${UniversalRetriever_VERSION}
+  SOVERSION ${UniversalRetrieverAPI}
+)
 ## Include directories
 TARGET_INCLUDE_DIRECTORIES(
   universal_retriever
   PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
 )
 TARGET_INCLUDE_DIRECTORIES(
   universal_retriever
   SYSTEM 
   PUBLIC ${Boost_INCLUDE_DIRS}
+)
+## Installation
+INSTALL(
+  TARGETS universal_retriever
+  EXPORT universal_retriever
+  DESTINATION "lib"
+)
+INSTALL(
+  EXPORT universal_retriever
+  DESTINATION "cmake"
 )

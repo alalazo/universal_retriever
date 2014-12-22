@@ -25,6 +25,11 @@ PROJECT(
   LANGUAGES CXX
 )
 
+SET(
+  UniversalRetrieverAPI
+  "api-1.0"
+)
+
 ###################
 ## Build options ##
 ###################
@@ -66,6 +71,7 @@ MESSAGE("############ COMPILER OPTIONS ############")
 
 FIND_PACKAGE( Boost 1.56 REQUIRED )
 
+ADD_SUBDIRECTORY( "include" )
 ADD_SUBDIRECTORY( "src" )
 
 OPTION( BUILD_UNIT_TEST "Enable the build of unit tests" ON )
