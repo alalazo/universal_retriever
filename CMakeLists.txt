@@ -79,3 +79,15 @@ IF( BUILD_UNIT_TEST )
   ENABLE_TESTING()
   ADD_SUBDIRECTORY( "test" )
 ENDIF()
+
+###############
+## Packaging ##
+###############
+
+SET(CPACK_GENERATOR "TGZ;DEB")
+SET(CPACK_PACKAGE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/packages")
+SET(CPACK_PACKAGE_VERSION_MAJOR "${UniversalRetriever_VERSION_MAJOR}")
+SET(CPACK_PACKAGE_VERSION_MINOR "${UniversalRetriever_VERSION_MINOR}")
+SET(CPACK_SOURCE_IGNORE_FILES "/CVS/;/.git/;.#;/#;.*~;cscope.*;/nbproject/;/build*/")
+SET(CPACK_PACKAGE_CONTACT "alalazo")
+INCLUDE( CPack )
