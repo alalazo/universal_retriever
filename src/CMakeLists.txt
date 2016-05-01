@@ -17,6 +17,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+find_package( Boost 1.56 REQUIRED )
+
 SET(
   UNIVERSAL_RETRIEVER_SOURCES
   BackendInterface.cpp
@@ -24,10 +26,11 @@ SET(
   HandlerMap.cpp
 )
 ## Library
-ADD_LIBRARY( 
-  universal_retriever SHARED 
-  ${UNIVERSAL_RETRIEVER_HEADERS} 
-  ${UNIVERSAL_RETRIEVER_SOURCES} 
+ADD_LIBRARY(
+  universal_retriever
+  SHARED
+  ${UNIVERSAL_RETRIEVER_HEADERS}
+  ${UNIVERSAL_RETRIEVER_SOURCES}
 )
 ## Set properties
 SET_TARGET_PROPERTIES(
@@ -35,6 +38,7 @@ SET_TARGET_PROPERTIES(
   PROPERTIES
   VERSION ${UniversalRetriever_VERSION}
   SOVERSION ${UniversalRetrieverAPI}
+  FOLDER lib
 )
 ## Include directories
 TARGET_INCLUDE_DIRECTORIES(
@@ -45,8 +49,9 @@ TARGET_INCLUDE_DIRECTORIES(
 )
 TARGET_INCLUDE_DIRECTORIES(
   universal_retriever
-  SYSTEM 
-  PUBLIC ${Boost_INCLUDE_DIRS}
+  SYSTEM
+  PUBLIC
+  ${Boost_INCLUDE_DIRS}
 )
 ## Installation
 INSTALL(
