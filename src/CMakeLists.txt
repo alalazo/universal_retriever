@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-find_package( Boost 1.56 REQUIRED )
+find_package( Boost 1.55 REQUIRED )
 
 SET(
   UNIVERSAL_RETRIEVER_SOURCES
