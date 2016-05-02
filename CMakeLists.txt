@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-CMAKE_MINIMUM_REQUIRED( VERSION 3.2.0 )
+CMAKE_MINIMUM_REQUIRED( VERSION 3.5.0 )
 
 PROJECT(
   UniversalRetriever

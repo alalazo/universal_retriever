@@ -9,12 +9,11 @@ dist: trusty
 
 # Required packages
 before_install:
- - sudo add-apt-repository -y ppa:george-edison55/cmake-3.x
- - sudo apt-get update -qq
+ - wget --no-check-certificate "https://cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.sh"
+ - sudo bash cmake-3.5.2-Linux-x86_64.sh
  
 install:
  - sudo apt-get install -qq libboost1.55-all-dev
- - sudo apt-get install -qq cmake
  
 # configuration
 before_script:
