@@ -1,6 +1,6 @@
 /*
  *  Universal Retriever : flexible engine for the retrieval of persistent objects
- * 
+ *
  *  Copyright (C) 2014  Massimiliano Culpo
  *
  *  Universal Retriever is free software: you can redistribute it and/or modify
@@ -19,9 +19,9 @@
 
 /**
  * @file Frontend.h
- * 
+ *
  * @brief Front-end API for the universal retriever
- * 
+ *
  * @author Massimiliano Culpo
  *
  * Created on December 15, 2014, 8:41 PM
@@ -33,8 +33,12 @@
 
 #include <UniversalRetrieverExceptions.h>
 
+#include <boost/version.hpp>
 #include <boost/any.hpp>
+
+#if BOOST_VERSION > 105500
 #include <boost/type_index.hpp>
+#endif
 
 #include <map>
 #include <memory>
@@ -57,11 +61,11 @@ public:
   using HandlerType = std::shared_ptr<BackendInterface>;
 
   /**
-   * @brief Retrieves an object of type T 
-   * 
+   * @brief Retrieves an object of type T
+   *
    * @param[in] name identifies a set of registered handlers
    * @param[in] key key to search for in the selected handlers
-   * 
+   *
    * @return required object or throws
    */
   template<class T>
@@ -71,21 +75,23 @@ public:
     } catch (boost::bad_any_cast& e) {
       std::stringstream estream;
       estream << "ERROR : key \"" << key << "\" in data set \"" << name << "\"";
+#if BOOST_VERSION > 105500
       estream << " is not associated with type \"" << boost::typeindex::type_id<T>().pretty_name() << "\"" << std::endl;
+#endif
       throw KeyTypeMismatch( estream.str() );
     }
   }
 
   /**
    * @brief Stores an object of type T
-   * 
+   *
    * @param[in] name identifies one particular store handler
    * @param[in] key key associated with the value
    * @param[in] value value to be stored
    */
   template<class T>
   void store(const std::string& name, const std::string& key, const T& value){
-    try 
+    try
     {
       auto& handler = m_store_map.at( name );
       handler->store(key,value);
@@ -101,50 +107,50 @@ public:
    * @brief Forces serialization for all the store handlers
    */
   void serialize();
-  
+
   /**
    * @brief Forces serialization of the stored objects
-   * 
+   *
    * @param[in] name identifies one particular store handler
    */
   void serialize(const std::string& name);
 
   /**
    * @brief Attach a retrieve handler to the front-end object
-   * 
+   *
    * More than one handler associated with the same name may be added.
    * The priority of use will be the same as the order of registration.
    * Throws if the handler is unknown.
-   * 
+   *
    * @param[in] info information on the handler to be added
    */
   void add_retrieve_handler(const HandlerInfo& info);
 
   /**
    * @brief Detach a retrieve handler from the front-end object
-   * 
+   *
    * Throws if the handler is not attached.
-   * 
-   * @param[in] info information on the handler to be added         
+   *
+   * @param[in] info information on the handler to be added
    */
   void remove_retrieve_handler(const HandlerInfo& info);
 
   /**
    * @brief Attach a store handler to the front-end object
-   * 
+   *
    * Only one store handler object may be associated with a given name.
    * Setting an handler for a name when one is already in use will
    * substitute the handler. Throws if the handler is unknown.
-   * 
+   *
    * @param[in] info information on the handler to be added
    */
   void set_store_handler(const HandlerInfo& info);
 
   /**
    * @brief Detach the store handler associated with the given name
-   * 
+   *
    * If the handler for a given name was not set, the method does nothing
-   * 
+   *
    * @param[in] name identifies one particular store handler
    */
   void unset_store_handler(const std::string& name);

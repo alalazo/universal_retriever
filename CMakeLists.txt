@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-CMAKE_MINIMUM_REQUIRED( VERSION 3.5.0 )
+CMAKE_MINIMUM_REQUIRED( VERSION 3.2.0 )
 
 PROJECT(
   UniversalRetriever
@@ -86,7 +86,7 @@ IF( BUILD_DOCUMENTATION )
   ADD_SUBDIRECTORY( "doc" )
 ENDIF()
 
-OPTION( BUILD_UNIT_TEST "Enable the build of unit tests" ON )
+option( BUILD_UNIT_TEST "Enable the build of unit tests" ON )
 IF( BUILD_UNIT_TEST )
   ENABLE_TESTING()
   ADD_SUBDIRECTORY( "test" )
