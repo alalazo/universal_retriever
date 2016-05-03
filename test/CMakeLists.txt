@@ -33,17 +33,27 @@ ADD_EXECUTABLE(
   test_main.cpp
   ${TEST_SOURCES}
 )
+target_compile_definitions(
+  test_universal_retriever
+  PUBLIC
+  -DBOOST_ALL_DYN_LINK
+)
+
 TARGET_INCLUDE_DIRECTORIES(
   test_universal_retriever
   PUBLIC
   ${PROJECT_SOURCE_DIR}/test
 )
+TARGET_INCLUDE_DIRECTORIES(
+  test_universal_retriever
+  PUBLIC
+  SYSTEM
+  ${Boost_INCLUDE_DIRS}
+)
 TARGET_LINK_LIBRARIES(
   test_universal_retriever
   universal_retriever
-  Boost::boost
-  Boost::unit_test_framework
-  Boost::dynamic_linking
+  ${Boost_LIBRARIES}
 )
 SET_TARGET_PROPERTIES(
   test_universal_retriever
