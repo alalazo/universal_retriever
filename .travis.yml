@@ -10,7 +10,6 @@ matrix:
         packages:
         - gcc-5
         - g++-5
-    env: CXX=g++-5
   - compiler: clang
     addons:
       apt:
@@ -19,7 +18,6 @@ matrix:
         - llvm-toolchain-precise-3.7
         packages:
         - clang-3.7
-    env: CXX=clang-3.7
 
 sudo : required
 dist: trusty
