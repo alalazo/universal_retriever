@@ -10,7 +10,6 @@ matrix:
         packages:
         - gcc-5
         - g++-5
-    env: CXX=g++-5
   - compiler: clang
     addons:
       apt:
@@ -19,7 +18,6 @@ matrix:
         - llvm-toolchain-precise-3.7
         packages:
         - clang-3.7
-    env: CXX=clang-3.7
 
 sudo : required
 dist: trusty
@@ -35,6 +33,8 @@ install:
  
 # configuration
 before_script:
+  - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.7"; fi
+  - if [ "$CXX" == "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
   - mkdir build && cd build
   - cmake --version
   - cmake .. -DCMAKE_BUILD_TYPE:STRING=Debug
