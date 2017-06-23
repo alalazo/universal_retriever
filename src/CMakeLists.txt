@@ -19,47 +19,45 @@
 
 find_package( Boost 1.55 REQUIRED )
 
-SET(
-  UNIVERSAL_RETRIEVER_SOURCES
-  BackendInterface.cpp
-  Frontend.cpp
-  HandlerMap.cpp
+add_library(universal_retriever
+    SHARED
+    ${UNIVERSAL_RETRIEVER_HEADERS}
+        BackendInterface.cpp
+        Frontend.cpp
+        HandlerMap.cpp
 )
-## Library
-ADD_LIBRARY(
-  universal_retriever
-  SHARED
-  ${UNIVERSAL_RETRIEVER_HEADERS}
-  ${UNIVERSAL_RETRIEVER_SOURCES}
+
+set_warning_flags(universal_retriever)
+set_rpath(universal_retriever)
+
+set_target_properties(universal_retriever
+    PROPERTIES
+        VERSION ${UniversalRetriever_VERSION}
+        SOVERSION ${UniversalRetrieverAPI}
+        FOLDER lib
 )
-## Set properties
-SET_TARGET_PROPERTIES(
-  universal_retriever
-  PROPERTIES
-  VERSION ${UniversalRetriever_VERSION}
-  SOVERSION ${UniversalRetrieverAPI}
-  FOLDER lib
+
+
+target_include_directories(universal_retriever
+    PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
 )
-## Include directories
-TARGET_INCLUDE_DIRECTORIES(
-  universal_retriever
-  PUBLIC
-  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>
+
+target_include_directories(universal_retriever
+    SYSTEM PUBLIC
+        ${Boost_INCLUDE_DIRS}
 )
-TARGET_INCLUDE_DIRECTORIES(
-  universal_retriever
-  SYSTEM
-  PUBLIC
-  ${Boost_INCLUDE_DIRS}
-)
+
 ## Installation
-INSTALL(
-  TARGETS universal_retriever
-  EXPORT universal_retriever
-  DESTINATION "lib"
+
+install(
+    TARGETS universal_retriever
+    EXPORT universal_retriever
+    DESTINATION lib
 )
-INSTALL(
-  EXPORT universal_retriever
-  DESTINATION "cmake"
+
+install(
+    EXPORT universal_retriever
+    DESTINATION cmake
 )

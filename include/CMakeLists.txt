@@ -17,27 +17,26 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-SET(
-  UNIVERSAL_RETRIEVER_INSTALLED_HEADERS
-  "${PROJECT_SOURCE_DIR}/include/Frontend.h"
-  "${PROJECT_SOURCE_DIR}/include/BackendInterface.h"
-  "${PROJECT_SOURCE_DIR}/include/HandlerInfo.h"
-  "${PROJECT_SOURCE_DIR}/include/UniversalRetrieverExceptions.h"  
+set(UNIVERSAL_RETRIEVER_INSTALLED_HEADERS
+    ${PROJECT_SOURCE_DIR}/include/Frontend.h
+    ${PROJECT_SOURCE_DIR}/include/BackendInterface.h
+    ${PROJECT_SOURCE_DIR}/include/HandlerInfo.h
+    ${PROJECT_SOURCE_DIR}/include/UniversalRetrieverExceptions.h
 )
 
-SET(
-  UNIVERSAL_RETRIEVER_PRIVATE_HEADERS
-  "${PROJECT_SOURCE_DIR}/include/HandlerMap.h"
+set(UNIVERSAL_RETRIEVER_PRIVATE_HEADERS
+    ${PROJECT_SOURCE_DIR}/include/HandlerMap.h
 )
 
-INSTALL( 
-  FILES ${UNIVERSAL_RETRIEVER_INSTALLED_HEADERS} 
-  DESTINATION "include"
+install(
+    FILES
+        ${UNIVERSAL_RETRIEVER_INSTALLED_HEADERS}
+    DESTINATION
+        include
 )
 
-SET(
-  UNIVERSAL_RETRIEVER_HEADERS
-  "${UNIVERSAL_RETRIEVER_INSTALLED_HEADERS}"
-  "${UNIVERSAL_RETRIEVER_PRIVATE_HEADERS}"
-  PARENT_SCOPE
+set(UNIVERSAL_RETRIEVER_HEADERS
+    ${UNIVERSAL_RETRIEVER_INSTALLED_HEADERS}
+    ${UNIVERSAL_RETRIEVER_PRIVATE_HEADERS}
+    PARENT_SCOPE
 )
