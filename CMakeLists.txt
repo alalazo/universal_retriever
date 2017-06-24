@@ -17,80 +17,83 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-CMAKE_MINIMUM_REQUIRED( VERSION 3.2.0 )
+cmake_minimum_required( VERSION 3.8.0 )
 
-PROJECT(
-  UniversalRetriever
-  VERSION 0.1
-  LANGUAGES CXX
+set(UniversalRetriever_VERSION_MAJOR 0)
+set(UniversalRetriever_VERSION_MINOR 1)
+
+project(
+    UniversalRetriever
+    VERSION "${UniversalRetriever_VERSION_MAJOR}.${UniversalRetriever_VERSION_MINOR}"
+    LANGUAGES CXX
 )
 
-SET(
-  UniversalRetrieverAPI
-  "api-1.0"
+# Set up basic package files
+
+include(CMakePackageConfigHelpers)
+
+set(UniversalRetriever_INCLUDE_DIRS include)
+
+configure_package_config_file("cmake/UniversalRetrieverConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/UniversalRetrieverConfig.cmake"
+    INSTALL_DESTINATION share/cmake
+    PATH_VARS UniversalRetriever_INCLUDE_DIRS
 )
 
-SET(CMAKE_CXX_STANDARD 14)
+write_basic_package_version_file("UniversalRetrieverVersion.cmake"
+    VERSION 0.1
+    COMPATIBILITY SameMajorVersion
+)
+install(
+    FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/UniversalRetrieverConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/UniversalRetrieverVersion.cmake"
+    DESTINATION share/cmake
+)
 
-IF( CMAKE_HOST_WIN32 )
-  SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
-  SET(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-ENDIF()
+set(UniversalRetrieverAPI "api-1.0")
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-#### Default build type
-IF( NOT CMAKE_BUILD_TYPE AND CMAKE_HOST_UNIX )
-  SET (CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
-      "Choose the type of build, RelWithDebInfo will be the default." FORCE)
-ENDIF()
+if( CMAKE_HOST_WIN32 )
+  set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
 
-#### Default documentation
+# Default documentation
 option(BUILD_DOCUMENTATION "If ON the documentation will be built (requires Doxygen)" OFF)
 
-#### Shared library build
-SET(BUILD_SHARED_LIBS ON)
+# Shared library build
+set(BUILD_SHARED_LIBS ON)
 
-#### Compiler flags
-IF( CMAKE_COMPILER_ID STREQUAL "GNU")
-  SET(CXX_WARNING_LEVEL "-Wall -Werror -pedantic")
-ELSEIF( CMAKE_CXX_COMPILER_ID STREQUAL "Clang" )
-  SET(CXX_WARNING_LEVEL "-Wall -Werror -pedantic -Wdocumentation")
-ELSEIF( CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" )
-  SET(CXX_WARNING_LEVEL "/W4")
-ELSE()
-  MESSAGE(ERROR "Detected an unsupported compiler")
-ENDIF()
-
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_WARNING_LEVEL}")
-#SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
-#SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
-#SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELEASE} -g")
+# Include local functions
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/compiler_options.cmake)
 
 #### Output log
-STRING( TOUPPER "CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}" SPECIFIC_BUILD)
-MESSAGE("############ COMPILER OPTIONS ############")
-MESSAGE("Compiler ID : ${CMAKE_CXX_COMPILER_ID}")
-MESSAGE("Compiler path : ${CMAKE_CXX_COMPILER}")
-MESSAGE("Compiler version : ${CMAKE_CXX_COMPILER_VERSION}")
-MESSAGE("CXX flags (base) : ${CMAKE_CXX_FLAGS}")
-MESSAGE("############ COMPILER OPTIONS ############")
+message("############ COMPILER ############")
+message("Compiler ID : ${CMAKE_CXX_COMPILER_ID}")
+message("Compiler path : ${CMAKE_CXX_COMPILER}")
+message("Compiler version : ${CMAKE_CXX_COMPILER_VERSION}")
+message("############ COMPILER ############")
 
 ##################
 ## Dependencies ##
 ##################
 
-ADD_SUBDIRECTORY( "include" )
-ADD_SUBDIRECTORY( "src" )
+add_subdirectory( include )
+add_subdirectory( src )
 
-IF( BUILD_DOCUMENTATION )
-  ADD_SUBDIRECTORY( "doc" )
-ENDIF()
+if( BUILD_DOCUMENTATION )
+  add_subdirectory( doc )
+endif()
 
 option( BUILD_UNIT_TEST "Enable the build of unit tests" ON )
-IF( BUILD_UNIT_TEST )
-  ENABLE_TESTING()
-  ADD_SUBDIRECTORY( "test" )
-ENDIF()
+
+if( BUILD_UNIT_TEST )
+  enable_testing()
+  add_subdirectory( test )
+endif()
 
 ###############
 ## Packaging ##
