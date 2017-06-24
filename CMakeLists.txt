@@ -19,10 +19,36 @@
 
 cmake_minimum_required( VERSION 3.8.0 )
 
+set(UniversalRetriever_VERSION_MAJOR 0)
+set(UniversalRetriever_VERSION_MINOR 1)
+
 project(
     UniversalRetriever
-    VERSION 0.1
+    VERSION "${UniversalRetriever_VERSION_MAJOR}.${UniversalRetriever_VERSION_MINOR}"
     LANGUAGES CXX
+)
+
+# Set up basic package files
+
+include(CMakePackageConfigHelpers)
+
+set(UniversalRetriever_INCLUDE_DIRS include)
+
+configure_package_config_file("cmake/UniversalRetrieverConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/UniversalRetrieverConfig.cmake"
+    INSTALL_DESTINATION share/cmake
+    PATH_VARS UniversalRetriever_INCLUDE_DIRS
+)
+
+write_basic_package_version_file("UniversalRetrieverVersion.cmake"
+    VERSION 0.1
+    COMPATIBILITY SameMajorVersion
+)
+install(
+    FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/UniversalRetrieverConfig.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/UniversalRetrieverVersion.cmake"
+    DESTINATION share/cmake
 )
 
 set(UniversalRetrieverAPI "api-1.0")

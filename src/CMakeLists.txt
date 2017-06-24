@@ -51,13 +51,15 @@ target_include_directories(universal_retriever
 
 ## Installation
 
-install(
-    TARGETS universal_retriever
-    EXPORT universal_retriever
-    DESTINATION lib
+install(TARGETS universal_retriever EXPORT UniversalRetrieverTargets
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    INCLUDES DESTINATION include
 )
 
 install(
-    EXPORT universal_retriever
-    DESTINATION cmake
+    EXPORT UniversalRetrieverTargets
+    DESTINATION share/cmake
 )
