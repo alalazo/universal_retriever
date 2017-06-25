@@ -138,7 +138,7 @@ void Frontend::serialize(const std::string& name)
 // Private
 //
 
-boost::any Frontend::any_retrieve(const std::string& name, const std::string& key)
+universal_retriever::any Frontend::any_retrieve(const std::string& name, const std::string& key)
 {
   try
   {
@@ -154,7 +154,7 @@ boost::any Frontend::any_retrieve(const std::string& name, const std::string& ke
   }
 }
 
-boost::any Frontend::any_retrieve_from_hvector(std::vector<HandlerType>& hvector, const std::string& key)
+universal_retriever::any Frontend::any_retrieve_from_hvector(std::vector<HandlerType>& hvector, const std::string& key)
 {
   for (auto& x : hvector)
   {

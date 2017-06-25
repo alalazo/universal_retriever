@@ -34,12 +34,12 @@ using namespace std;
 
 namespace universal_retriever {
 
-boost::any BackendInterface::retrieve(const std::string& key)
+universal_retriever::any BackendInterface::retrieve(const std::string& key)
 {
-  return boost::any();
+  return universal_retriever::any();
 }
 
-void BackendInterface::store(const std::string& key, const boost::any& value)
+void BackendInterface::store(const std::string& key, const universal_retriever::any& value)
 {
   stringstream estream;
   estream << "ERROR : the store cannot be performed as " << __func__ << "was not overridden" << endl;

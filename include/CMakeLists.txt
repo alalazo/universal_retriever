@@ -18,6 +18,7 @@
 #
 
 set(UNIVERSAL_RETRIEVER_INSTALLED_HEADERS
+    ${PROJECT_SOURCE_DIR}/include/any.h
     ${PROJECT_SOURCE_DIR}/include/Frontend.h
     ${PROJECT_SOURCE_DIR}/include/BackendInterface.h
     ${PROJECT_SOURCE_DIR}/include/HandlerInfo.h
