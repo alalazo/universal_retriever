@@ -29,12 +29,12 @@
 #ifndef FRONTEND_H_20141215
 #define	FRONTEND_H_20141215
 
+#include <any.h>
 #include <BackendInterface.h>
 
 #include <UniversalRetrieverExceptions.h>
 
 #include <boost/version.hpp>
-#include <boost/any.hpp>
 
 #if BOOST_VERSION > 105500
 #include <boost/type_index.hpp>
@@ -71,8 +71,8 @@ public:
   template<class T>
   T retrieve(const std::string& name, const std::string& key) {
     try {
-      return boost::any_cast<T>(any_retrieve(name, key));
-    } catch (boost::bad_any_cast& e) {
+      return universal_retriever::any_cast<T>(any_retrieve(name, key));
+    } catch (universal_retriever::bad_any_cast& e) {
       std::stringstream estream;
       estream << "ERROR : key \"" << key << "\" in data set \"" << name << "\"";
 #if BOOST_VERSION > 105500
@@ -157,9 +157,9 @@ public:
 
 private:
 
-  boost::any any_retrieve(const std::string& name, const std::string& key);
+  universal_retriever::any any_retrieve(const std::string& name, const std::string& key);
 
-  boost::any any_retrieve_from_hvector(std::vector<HandlerType>& hvector, const std::string& key);
+  universal_retriever::any any_retrieve_from_hvector(std::vector<HandlerType>& hvector, const std::string& key);
 
   std::map< std::string, std::vector<HandlerType> > m_retriever_map;
   std::map< std::string, HandlerType > m_store_map;

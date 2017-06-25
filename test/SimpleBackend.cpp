@@ -29,16 +29,11 @@
 
 #include <SimpleBackend.h>
 
-#include <boost/any.hpp>
-
-#include <memory>
-#include <stdexcept>
-
 using namespace std;
 
 namespace universal_retriever {
 
-boost::any SimpleBackEnd::retrieve(const std::string& key)
+universal_retriever::any SimpleBackEnd::retrieve(const std::string& key)
 {
   if (key == "integer")
   {
@@ -48,7 +43,7 @@ boost::any SimpleBackEnd::retrieve(const std::string& key)
   {
     return m_double;
   }
-  return boost::any();
+  return universal_retriever::any();
 }
 
 HandlerInfo SimpleBackEnd::info()
@@ -56,15 +51,15 @@ HandlerInfo SimpleBackEnd::info()
   return HandlerInfo("simple_backend", "1.0", "memory");
 }
 
-void SimpleBackEnd::store(const std::string& key, const boost::any& value)
+void SimpleBackEnd::store(const std::string& key, const universal_retriever::any& value)
 {
   if (key == "integer")
   {
-    m_integer=boost::any_cast<int>(value);
+    m_integer = universal_retriever::any_cast<int>(value);
   }
   else if (key == "double")
   {
-    m_double=boost::any_cast<double>(value);
+    m_double = universal_retriever::any_cast<double>(value);
   }
   else
   {

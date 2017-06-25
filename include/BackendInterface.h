@@ -30,9 +30,8 @@
 #ifndef BACKENDINTERFACE_H_20141215
 #define	BACKENDINTERFACE_H_20141215
 
+#include <any.h>
 #include <HandlerInfo.h>
-
-#include <boost/any.hpp>
 
 #include <memory>
 
@@ -53,7 +52,7 @@ public:
    * 
    * @return universal container
    */
-  virtual boost::any retrieve(const std::string& key);
+  virtual universal_retriever::any retrieve(const std::string& key);
 
   /**
    * @brief Stores an object with a given key
@@ -63,7 +62,7 @@ public:
    * @param[in] key key associated with the object
    * @param[in] value object to be stored
    */
-  virtual void store(const std::string& key, const boost::any& value);
+  virtual void store(const std::string& key, const universal_retriever::any& value);
 
   /**
    * @brief Triggers serialization of all the stored objects

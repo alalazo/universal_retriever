@@ -37,11 +37,11 @@ namespace universal_retriever {
 class SimpleBackEnd : public BackendInterface {
 public:
 
-  boost::any retrieve(const std::string& key) final;
+  universal_retriever::any retrieve(const std::string& key) final;
 
   HandlerInfo info() final;
 
-  void store(const std::string& key, const boost::any& value) final;
+  void store(const std::string& key, const universal_retriever::any& value) final;
 
 private:
   int m_integer = 10;
