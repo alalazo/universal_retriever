@@ -46,9 +46,7 @@ void BackendInterface::store(const std::string& key, const universal_retriever::
   throw UnableToStore( estream.str() );
 }
 
-BackendInterface::~BackendInterface()
-{
-}
+BackendInterface::~BackendInterface() = default;
 
 void BackendInterface::serialize()
 {

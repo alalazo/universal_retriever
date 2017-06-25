@@ -70,6 +70,22 @@ set(BUILD_SHARED_LIBS ON)
 # Include local functions
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/compiler_options.cmake)
 
+# Set the default for Clang-tidy
+find_program(CLANG_TIDY_EXE
+    NAMES "clang-tidy"
+    DOC "Absolute path to the clang-tidy executable (if found)"
+)
+IF( CLANG_TIDY_EXE )
+
+    set(CMAKE_CXX_CLANG_TIDY
+        "${CLANG_TIDY_EXE}"
+        "-checks=boost-*,modernize-*"
+        "-analyze-temporary-dtors"
+        "-warnings-as-errors=*"
+    )
+
+ENDIF()
+
 #### Output log
 message("############ COMPILER ############")
 message("Compiler ID : ${CMAKE_CXX_COMPILER_ID}")
