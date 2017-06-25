@@ -127,7 +127,7 @@ void Frontend::serialize(const std::string& name)
   catch (out_of_range& e)
   { 
     stringstream estream;
-    estream << "ERROR (" << __func__ << ") : there is no store handler for data type \"" << name << "\"" << endl;
+    estream << "ERROR (" << __func__ << R"() : there is no store handler for data type ")" << name << R"(")" << endl;
     estream << "\tDid you forget to call set_store_handler and register the handler?" << endl;
     throw HandlerNotFound( estream.str() );
   }
@@ -148,7 +148,7 @@ universal_retriever::any Frontend::any_retrieve(const std::string& name, const s
   catch (out_of_range& e)
   {
     stringstream estream;
-    estream << "ERROR : the front-end doesn't know how to manage \"" << name << "\" data types" << endl;
+    estream << R"(ERROR : the front-end doesn't know how to manage ")" << name << R"(" data types)" << endl;
     estream << "\tDid you forget to call add_retrieve_handler and register the handler?" << endl;
     throw HandlerNotFound(estream.str());
   }
@@ -163,7 +163,7 @@ universal_retriever::any Frontend::any_retrieve_from_hvector(std::vector<Handler
   }
   // If the function did not return, then throw an exception
   stringstream estream;
-  estream << "ERROR : key \"" << key << "\" not managed by the following handlers : " << endl;
+  estream << R"(ERROR : key ")" << key << R"(" not managed by the following handlers : )" << endl;
   for (auto& x : hvector)
   {
     estream << x->info() << endl;
