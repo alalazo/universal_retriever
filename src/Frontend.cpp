@@ -159,7 +159,7 @@ universal_retriever::any Frontend::any_retrieve_from_hvector(std::vector<Handler
   for (auto& x : hvector)
   {
     auto value = x->retrieve(key);
-    if (!value.empty()) return value;
+    if ( has_value(value) ) return value;
   }
   // If the function did not return, then throw an exception
   stringstream estream;

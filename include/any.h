@@ -44,6 +44,14 @@ namespace universal_retriever {
     using boost::any_cast;
     using boost::bad_any_cast;
 #endif
+
+    inline bool has_value(const any& value) {
+#if __has_include(<any>) && __cplusplus > 201402L
+        return value.has_value();
+#else
+        return !value.empty();
+#endif
+    }
 }
 
 
