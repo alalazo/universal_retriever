@@ -1,6 +1,6 @@
 /*
  *  Universal Retriever : flexible engine for the retrieval of persistent objects
- * 
+ *
  *  Copyright (C) 2014  Massimiliano Culpo
  *
  *  Universal Retriever is free software: you can redistribute it and/or modify

@@ -22,7 +22,7 @@
 
 #if __has_include(<any>) && __cplusplus > 201402L
 #include <any>
-#elif __has_include(<experimental/any>) && __cplusplus > 201402L
+#elif __has_include(<experimental / any>) && __cplusplus > 201402L
 #include <experimental/any>
 #elif __has_include(<boost/any.hpp>)
 #include <boost/any.hpp>
@@ -30,7 +30,8 @@
 #error "Found no implementation of 'any' class."
 #endif
 
-namespace universal_retriever {
+namespace universal_retriever
+{
 #if __has_include(<any>) && __cplusplus > 201402L
     using std::any;
     using std::any_cast;
@@ -45,7 +46,8 @@ namespace universal_retriever {
     using boost::bad_any_cast;
 #endif
 
-    inline bool has_value(const any& value) {
+    inline bool has_value(const any& value)
+    {
 #if __has_include(<any>) && __cplusplus > 201402L
         return value.has_value();
 #else
@@ -54,5 +56,4 @@ namespace universal_retriever {
     }
 }
 
-
-#endif //ANY_H_20170625
+#endif // ANY_H_20170625
