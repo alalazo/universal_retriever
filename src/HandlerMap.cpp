@@ -1,6 +1,6 @@
 /*
  *  Universal Retriever : flexible engine for the retrieval of persistent objects
- * 
+ *
  *  Copyright (C) 2014  Massimiliano Culpo
  *
  *  Universal Retriever is free software: you can redistribute it and/or modify
@@ -19,9 +19,9 @@
 
 /**
  * @file HandlerMap.cpp
- * 
+ *
  * @brief Implementation for HandlerMap.h
- * 
+ *
  * @author Massimiliano Culpo
  *
  * Created on December 17, 2014, 9:17 PM
@@ -29,14 +29,15 @@
 
 #include <HandlerMap.h>
 
-namespace universal_retriever {
-namespace details {
-
-HandlerMap::MapType& HandlerMap::get()
+namespace universal_retriever
 {
-  static MapType map;
-  return map;
-}
+    namespace details
+    {
 
-}
+        HandlerMap::MapType& HandlerMap::get()
+        {
+            static MapType map;
+            return map;
+        }
+    }
 }

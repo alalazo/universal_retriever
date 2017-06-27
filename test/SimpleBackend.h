@@ -1,6 +1,6 @@
 /*
  *  Universal Retriever : flexible engine for the retrieval of persistent objects
- * 
+ *
  *  Copyright (C) 2014  Massimiliano Culpo
  *
  *  Universal Retriever is free software: you can redistribute it and/or modify
@@ -19,38 +19,37 @@
 
 /**
  * @file SimpleBackend.h
- * 
+ *
  * @brief A simple back-end for unit test purposes
- * 
+ *
  * @author Massimiliano Culpo
  *
  * Created on December 17, 2014, 8:07 PM
  */
 
 #ifndef SIMPLE_BACKEND_H_20141217
-#define	SIMPLE_BACKEND_H_20141217
+#define SIMPLE_BACKEND_H_20141217
 
 #include <BackendInterface.h>
 
-namespace universal_retriever {
+namespace universal_retriever
+{
 
-class SimpleBackEnd : public BackendInterface {
-public:
+    class SimpleBackEnd : public BackendInterface
+    {
+      public:
+        universal_retriever::any retrieve(const std::string& key) final;
 
-  universal_retriever::any retrieve(const std::string& key) final;
+        HandlerInfo info() final;
 
-  HandlerInfo info() final;
+        void store(const std::string& key, const universal_retriever::any& value) final;
 
-  void store(const std::string& key, const universal_retriever::any& value) final;
+      private:
+        int m_integer = 10;
+        double m_double = 0.0;
 
-private:
-  int m_integer = 10;
-  double m_double = 0.0;
-  
-  REGISTRABLE_BACKEND;
-};
-
+        REGISTRABLE_BACKEND;
+    };
 }
 
-#endif	/* SIMPLE_BACKEND_H_20141217 */
-
+#endif /* SIMPLE_BACKEND_H_20141217 */

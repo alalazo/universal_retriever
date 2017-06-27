@@ -1,6 +1,6 @@
 /*
  *  Universal Retriever : flexible engine for the retrieval of persistent objects
- * 
+ *
  *  Copyright (C) 2014  Massimiliano Culpo
  *
  *  Universal Retriever is free software: you can redistribute it and/or modify
@@ -32,34 +32,30 @@
 
 using namespace std;
 
-namespace universal_retriever {
-
-universal_retriever::any BackendInterface::retrieve(const std::string& key)
+namespace universal_retriever
 {
-  return universal_retriever::any();
-}
 
-void BackendInterface::store(const std::string& key, const universal_retriever::any& value)
-{
-  stringstream estream;
-  estream << "ERROR : the store cannot be performed as " << __func__ << "was not overridden" << endl;
-  throw UnableToStore( estream.str() );
-}
+    universal_retriever::any BackendInterface::retrieve(const std::string& key) { return universal_retriever::any(); }
 
-BackendInterface::~BackendInterface() = default;
+    void BackendInterface::store(const std::string& key, const universal_retriever::any& value)
+    {
+        stringstream estream;
+        estream << "ERROR : the store cannot be performed as " << __func__ << "was not overridden" << endl;
+        throw UnableToStore(estream.str());
+    }
 
-void BackendInterface::serialize()
-{
-}
+    BackendInterface::~BackendInterface() = default;
 
-namespace details {
+    void BackendInterface::serialize() {}
 
-bool register_backend(std::shared_ptr<BackendInterface> backend)
-{
-  auto & map=details::HandlerMap::get();
-  auto item=make_pair(backend->info(), backend);
-  return map.insert(item).second;
-}
+    namespace details
+    {
 
-}
+        bool register_backend(std::shared_ptr<BackendInterface> backend)
+        {
+            auto& map = details::HandlerMap::get();
+            auto item = make_pair(backend->info(), backend);
+            return map.insert(item).second;
+        }
+    }
 }

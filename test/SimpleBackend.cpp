@@ -1,6 +1,6 @@
 /*
  *  Universal Retriever : flexible engine for the retrieval of persistent objects
- * 
+ *
  *  Copyright (C) 2014  Massimiliano Culpo
  *
  *  Universal Retriever is free software: you can redistribute it and/or modify
@@ -19,9 +19,9 @@
 
 /**
  * @file SimpleBackend.cpp
- * 
+ *
  * @brief Implementation for SimpleBackend.h
- * 
+ *
  * @author Massimiliano Culpo
  *
  * Created on December 17, 2014, 8:07 PM
@@ -31,41 +31,39 @@
 
 using namespace std;
 
-namespace universal_retriever {
-
-universal_retriever::any SimpleBackEnd::retrieve(const std::string& key)
+namespace universal_retriever
 {
-  if (key == "integer")
-  {
-    return m_integer;
-  }
-  else if (key == "double")
-  {
-    return m_double;
-  }
-  return universal_retriever::any();
-}
 
-HandlerInfo SimpleBackEnd::info()
-{
-  return HandlerInfo("simple_backend", "1.0", "memory");
-}
+    universal_retriever::any SimpleBackEnd::retrieve(const std::string& key)
+    {
+        if (key == "integer")
+        {
+            return m_integer;
+        }
+        else if (key == "double")
+        {
+            return m_double;
+        }
+        return universal_retriever::any();
+    }
 
-void SimpleBackEnd::store(const std::string& key, const universal_retriever::any& value)
-{
-  if (key == "integer")
-  {
-    m_integer = universal_retriever::any_cast<int>(value);
-  }
-  else if (key == "double")
-  {
-    m_double = universal_retriever::any_cast<double>(value);
-  }
-  else
-  {
-    throw std::runtime_error("SimpleBackend::store : invalid key");
-  }
-}
+    HandlerInfo SimpleBackEnd::info() { return HandlerInfo("simple_backend", "1.0", "memory"); }
 
-REGISTER_BACKEND(SimpleBackEnd);
+    void SimpleBackEnd::store(const std::string& key, const universal_retriever::any& value)
+    {
+        if (key == "integer")
+        {
+            m_integer = universal_retriever::any_cast<int>(value);
+        }
+        else if (key == "double")
+        {
+            m_double = universal_retriever::any_cast<double>(value);
+        }
+        else
+        {
+            throw std::runtime_error("SimpleBackend::store : invalid key");
+        }
+    }
+
+    REGISTER_BACKEND(SimpleBackEnd);
 }
